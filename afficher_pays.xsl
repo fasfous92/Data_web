@@ -9,7 +9,7 @@
          <!-- <xsl:variable name="code" select="translate($param,'abcdefghijklmnopqrstuvwxyz','ABCDEFGHIJKLMNOPQRSTUVWXYZ')"/>
      -->
      <pays_affiche>
->
+
          <ul>
            <xsl:apply-templates select="//country_codes[cca2=$param]/.."/>
          </ul>
@@ -22,7 +22,7 @@
 </xsl:template>
 
 <xsl:template match="//country">
-   <table border="3" width="70%" align="center">
+   <table bgcolor="#FFFDD0" border="3" width="70%" align="center" >
 	 <tr>
 	            <th>Name</th>
 	            <th>Capital</th>

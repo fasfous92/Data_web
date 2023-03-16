@@ -3,6 +3,7 @@
 function changecouleur(elementId,color1,color2) {
    document.body.style.backgroundColor=color2;
    var element=document.getElementById(elementId);
+   var element=document.getElementById(elementId);
    element.style.color=color1;
 }
 
@@ -55,7 +56,7 @@ function ChercherPays(xmlDocumentUrl, xslDocumentUrl, baliseElementARecuperer, p
     //just for aesthetics
      const tableavoid = document.getElementById("table_improved"); // Get table body element
     tableavoid.style.display='none';
-    
+
     // Chargement du fichier XSL � l'aide de XMLHttpRequest synchrone
     var xslDocument = chargerHttpXML(xslDocumentUrl);
 
@@ -79,7 +80,11 @@ function ChercherPays(xmlDocumentUrl, xslDocumentUrl, baliseElementARecuperer, p
 
 	// ins�rer l'�lement transform� dans la page html
     elementHtmlParent.innerHTML=newXmlDocument.getElementsByTagName(baliseElementARecuperer)[0].innerHTML;
-
+    if(output=='data_pays'){
+       // elementHtmlParent.style.display='block';
+        var car = window.document.getElementById('square');
+        car.style.display='inline-block';
+    }
 
 }
 
@@ -105,7 +110,10 @@ function svg(svgfileURL) {
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function clickable(attribute){
-    var shapeElements = document.select('g');
+    var output=document.getElementById('square2');
+    output.style.display='none';
+  var shapeElements = document.querySelectorAll('g');
+
 
 for (var i = 0; i < shapeElements.length; i++) {
   var childElement = shapeElements[i];
@@ -114,7 +122,9 @@ for (var i = 0; i < shapeElements.length; i++) {
     var title = event.target.getAttribute(attribute);
 
     // display the value of the title attribute
-    alert(title);});
+    //alert(title);});
+    output.innerHTML=title;
+    output.style.display='inline-block';});
 
 }
 
@@ -125,12 +135,14 @@ function Mouse(xslfile){
     var shapeElements = document.querySelectorAll('g');
     var tooltip = window.document.getElementById('table_pays');
 
+
 for (var i = 0; i < shapeElements.length; i++) {
 
   var childElement = shapeElements[i];
   childElement.addEventListener("mouseover", function(event) {
+
     // get the value of the title attribute
-      event.target.setAttribute("style","fill:blue");
+      event.target.setAttribute("style","fill:#0096FF");
       tooltip.style.display='block';
       ChercherPays('countriesTP.xml',xslfile,'pays_affiche',event.target.getAttribute('id'),'table_pays');
 
@@ -146,6 +158,7 @@ for (var i = 0; i < shapeElements.length; i++) {
         tooltip.style.display = 'block';*/
       });
 childElement.addEventListener("mouseout", function(event) {
+
       event.target.removeAttribute("style");
       //tooltip.style.display='none';
    });
@@ -215,7 +228,7 @@ for (var i = 0; i < shapeElements.length; i++) {
   var childElement = shapeElements[i];
   childElement.addEventListener("mouseover", function(event) {
     // get the value of the title attribute
-      event.target.setAttribute("style","fill:blue");
+      event.target.setAttribute("style","fill:0096FF");
      // tooltip.style.display='block';
       var code=event.target.getAttribute("id").toLowerCase();
       var JSONdoc='https://restcountries.com/v2/alpha/'+code;
@@ -231,29 +244,29 @@ childElement.addEventListener("mouseout", function(event) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
-function languages(countryid, mode){
+function languages(countryid){
+   var shapeElements = document.getElementById("load_svg");
+   var oldelem=shapeElements.querySelectorAll("path");
+  oldelem.forEach(element => {
+    element.removeAttribute("style");
+  });
 var code=countryid.toLowerCase();
 var jasonurl='https://restcountries.com/v2/alpha/'+code;
 var jasoncode=chargerHttpJSON(jasonurl);
 for (var i = 0; i < jasoncode.languages.length; i++) {
     parameter=jasoncode.languages[i].name;
-     document.getElementsById('hiddenlang').style.display='none';
-    ChercherPays('countriesTP.xml','Lang_pays.xsl','pays_affiche',parameter,'hiddenlang');
-    var text_to_split=document.getElementById("hiddenlang").innerHTML;
+    // document.getElementById('hiddenlang').style.display='none';
+    ChercherPays('countriesTP.xml','Lang_pays.xsl','pays_recherche',parameter,'hiddenlang');
+    var text_to_split=document.getElementById('hiddenlang').innerHTML;
     let string1 = "\n&gt;\n\n";
     text_to_split= text_to_split.replace(string1, "").trim();
     const line = text_to_split.split("<br>");
 
-   var shapeElements = document.getElementById("load_svg");
         for (var j = 0; j < line.length; j++) {
         if(line[j]!=""){
             var country =shapeElements.getElementById(line[j]);
             if(country){
-                if (mode=="True"){
                 country.setAttribute("style","fill:green");
-                }else {
-                country.removeAttribute("style");
-                }
             }
         }
     }
@@ -261,32 +274,49 @@ for (var i = 0; i < jasoncode.languages.length; i++) {
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////
 function getRandomIDFromDatalist() {
+
+
+
   datalist_load('countriesTP.xml');
   var datalist = document.getElementById('countriesid');
   var options = datalist.getElementsByTagName('option');
   var randomIndex = Math.floor(Math.random() * options.length);
-  var randomOption = options[randomIndex].value;
-  ChercherPays('countriesTP.xml','cherchePays.xsl','pays_recherche',document.getElementById('myText1').value,'hiddenlang');
-  document.getElementById('hiddenlang').style.display='Block';
-  response(randomOption);
+  var param = options[randomIndex].value;
+  ChercherPays('countriesTP.xml','cherchePays.xsl','pays_recherche',param,'hiddenlang');
+    var disp=document.getElementById('hiddenlang');
+  disp.style.display='Block';
+  response(param);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 function response(param){
-   var shapeElements = document.getElementById("load_svg");
-   var correct=shapeElements.getElementById(param);
+
+   //var shapeElements = document.getElementById("load_svg");
+   var shapeElements = document.querySelectorAll('path');
+  var correct=document.getElementById(param);
+  ///to clear old filling
+     var image = document.getElementById("load_svg");
+    var oldelem=image.querySelectorAll("path");
+  oldelem.forEach(element => {
+    element.removeAttribute("style");
+  });
 
 for (var i = 0; i < shapeElements.length; i++) {
   var childElement = shapeElements[i];
-  childElement.addEventListener('click', function(event) {
+  childElement.addEventListener('click', function(event, param) {
+  ///to clear old filling
+    oldelem.forEach(element => {
+    element.removeAttribute("style");
+  });
+
     // get the value of the title attribute
-    var title = event.target.getAttribute(attribute);
+    var title = event.target.getAttribute('id');
     if(title!=param){
-        alert("wrong!!")
+       // alert("wrong!!")
         event.target.setAttribute("style","fill:red");
         correct.setAttribute("style","fill:green")
-    }else{
-        alert("correct!!")
+    }else if (title=param){
+       // alert("correct!!")
         event.target.setAttribute("style","fill:green");
     }
 

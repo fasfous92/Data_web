@@ -7,12 +7,10 @@
 <html>
  <BODY>
 
-     <pays_affiche>
->
-
+     <pays_recherche>
            <xsl:apply-templates select="//country/languages[*/node()=$param]/.."/>
 
-     </pays_affiche>
+     </pays_recherche>
 
 
 
