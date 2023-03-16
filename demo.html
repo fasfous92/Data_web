@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html  xmlns="http://www.w3.org/1999/xhtml">
+
+
+<head>
+
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <title>TP 3IF Ajax</title>
+  <meta name="author" content="Youssef SIDHOM">
+  <script type="text/javascript" src="Javascriptsrc.js"></script>
+
+
+</head>
+
+<body> <p>Fichier ? modifier/compl?ter</p>
+
+
+  Change to our cool mode:
+  <input name="button1" type="button" id="myButton1" onClick="changecouleur('myButton1','white','blue');" value="COOL MODE!!" />
+  <br><br/>
+  Go back to the Original mode:
+  <input name="button2" type="button" id="myButton2" onClick="changecouleur('myButton1','black','white');" value="Reset MODE" />
+    <br><br/>
+  Enter the code of the country:
+  <input name="button3" type="button" id="myButton3" onClick="ChercherPays('countriesTP.xml','cherchePays.xsl','pays_recherche',document.getElementById('myText1').value,'data_pays');" value="Find Country Data " />
+  <input name="button9" type="button" id="myButton9" onClick="datalist_load('countriesTP.xml');" value="Load Datalist" />
+<br/>
+<input name="button11" type="button" id="myButton11" onClick="languages(document.getElementById('myText1').value,'True');" value="check countries that speak the same languages" />
+<input name="button11" type="button" id="myButton12" onClick="languages(document.getElementById('myText1').value,'False');" value="reset" />
+
+
+  <input name="text" type="text" id="myText1" list="countriesid" value="change code" />
+    <datalist id="countriesid"></datalist>
+
+
+      <p style="color: red; font-weight: bold;">  The data of the Countries are:</p>
+    <div id="data_pays">
+        <p style="color: red; font-weight: bold;"> </p>
+    </div>
+  <br><br/>
+
+      <input name="button4" type="button" id="myButton4" onClick="svg('exemple.svg');" value="Load SVG" />
+      <input name="button5" type="button" id="myButton5" onClick="clickable('title');" value="Clickable SVG" />
+
+<br><br/>
+      <input name="button6" type="button" id="myButton6" onClick="svg('worldHigh.svg');" value="Load the World Map" />
+      <input name="button7" type="button" id="myButton7" onClick="clickable('countryname');" value="Clickable World" />
+      <input name="button8" type="button" id="myButton8" onClick="Mouse('afficher_pays.xsl');" value="show data" />
+      <input name="button8" type="button" id="myButton10" onClick="Mouse_finance();" value="finance mode" />
+    <input name="button8" type="button" id="myButton13" onClick="getRandomIDFromDatalist();" value="Challenge yourself" />
+
+ <div id="table_pays" style="display: none;">  </div>
+  <p id="hiddenlang" style="display :none;"/>
+
+
+<table id="table_improved" style="display:none" border="3"  align="center">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Capital</th>
+      <th>Spoken language</th>
+        <th>Currency</th>
+        <th>Flag</th>
+    </tr>
+  </thead>
+    <td  id="cell[0]"></td>
+    <td  id="cell[1]"></td>
+    <td  id="cell[2]"></td>
+    <td  id="cell[3]"></td>
+    <td  id="cell[4]"></td>
+
+
+</table>
+
+
+<SVG id="load_svg" width="100%" height="800">
+
+</SVG>
+
+
+
+
+
+
+
+
+
+</body>
+</html>
