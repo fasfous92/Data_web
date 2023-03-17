@@ -25,16 +25,18 @@
 </xsl:template>
 
 <xsl:template match="//country">
+	<!--
 	 <xsl:variable name="cca3" select="country_codes/cca3"/>
 	<xsl:variable name="Json" select="document('https://restcountries.com/v2/alpha/{$cca3}')"/>
-
+-->
     <table border="3" width="70%" align="center">
 	 <tr>
 	            <th>Name</th>
 	            <th>Capital</th>
                 <th>Spoken languages</th>
-		 		<th>Currencies</th>
 	            <th>Flag</th>
+
+
 	 </tr>
 	          <tr>
 	          	<td><xsl:value-of select="country_name/common_name"/></td>
@@ -47,13 +49,15 @@
 					<xsl:value-of select="current()"/>
 				  </xsl:for-each>
 				  </td>
-				 <td>  <xsl:for-each select="$Json/languages">
+			<!--	<td>  <xsl:for-each select="$Json/currencies">
 						<xsl:if test="position() &gt;1">
 			  				,
 			  	 	</xsl:if>
 					<xsl:value-of select="current()/name"/>
 				  </xsl:for-each>
-				  </td>
+					<xsl:value-of select="$Json/currencies/name"/>
+
+				  </td>-->
 	            <td>
 	            <img src="http://www.geonames.org/flags/x/{translate(country_codes/cca2,'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz')}.gif" alt="" height="40" width="60"> </img>
 	            </td>

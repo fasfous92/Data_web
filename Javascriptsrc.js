@@ -146,16 +146,6 @@ for (var i = 0; i < shapeElements.length; i++) {
       tooltip.style.display='block';
       ChercherPays('countriesTP.xml',xslfile,'pays_affiche',event.target.getAttribute('id'),'table_pays');
 
-
-       /* const x = event.clientX;
-        const y = event.clientY;
-
-  // Set the position of the pop-up text
-  tooltip.style.left = `${x}px`;
-  tooltip.style.top = `${y}px`;
-
-
-        tooltip.style.display = 'block';*/
       });
 childElement.addEventListener("mouseout", function(event) {
 
@@ -190,35 +180,31 @@ function Json_table(JSONdoc){
           tableBody.style.display='block';
 
       var jsondoc=chargerHttpJSON(JSONdoc);
+      var row='';
+       for (var i = 0; i < jsondoc.languages.length; i++) {
+                 row+=jsondoc.languages[i].name;
+                 if(i!=jsondoc.languages.length-1){
+                 row+=',';
+                 }
+                }
 
-        const Table=document.getElementById("table_improved");
-      const newRow = document.createElement("tr"); // Create new table row
-       var cell=document.getElementById("cell[0]");
-           cell.innerHTML=jsondoc.name;
-       cell=document.getElementById("cell[1]");
-           cell.innerHTML=jsondoc.capital;
-       cell=document.getElementById("cell[2]");
-       var row='';
-            for (var i = 0; i < jsondoc.languages.length; i++) {
-             row+=jsondoc.languages[i].name;
-             if(i!=jsondoc.languages.length-1){
-             row+=',';
-             }
-            }
-         cell.innerHTML=row;
-       cell=document.getElementById("cell[3]");
-             row='';
-             for (var i = 0; i < jsondoc.currencies.length; i++) {
-             row+=jsondoc.currencies[i].name;
-             row+='('+jsondoc.currencies[i].symbol+')'
-             if(i!=jsondoc.currencies.length-1){
-             row+=',';
-             }
-            }
-             cell.innerHTML=row;
-       cell=document.getElementById("cell[4]");
-       cell.innerHTML='<img src='+jsondoc.flag+' width="100%" height="100">';
+      tableBody.innerHTML=`
+        <table bgColor="#FFFDD0" border="3" width="70%" align="center">
+	 <tr>
+	            <th>Name</th>
+	            <th>Capital</th>
+                <th>Spoken languages</th>
+	            <th>Flag</th>
+                <th>Currencies</th>
+    </tr>
+        <td> ${jsondoc.name}  </td>
+        <td> ${jsondoc.capital}  </td>
+        <td> ${row} </td>
+        <td> <img src=${jsondoc.flag} + width="100%" height="100"> </td>
+      <td>
+        ${jsondoc.currencies[0].name} (${jsondoc.currencies[0].symbol})
 
+      </td>`;
   }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -229,7 +215,6 @@ for (var i = 0; i < shapeElements.length; i++) {
   childElement.addEventListener("mouseover", function(event) {
     // get the value of the title attribute
       event.target.setAttribute("style","fill:0096FF");
-     // tooltip.style.display='block';
       var code=event.target.getAttribute("id").toLowerCase();
       var JSONdoc='https://restcountries.com/v2/alpha/'+code;
       Json_table(JSONdoc);
@@ -274,7 +259,12 @@ for (var i = 0; i < jasoncode.languages.length; i++) {
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////
 function getRandomIDFromDatalist() {
-
+      var block1=document.getElementById('table_pays');
+      var block2=document.getElementById('table_improved');
+      block1.style.display='none';
+      block2.style.display='none';
+      var disp=document.getElementById('challenge');
+  disp.style.display='inline-block';
 
 
   datalist_load('countriesTP.xml');
@@ -282,9 +272,8 @@ function getRandomIDFromDatalist() {
   var options = datalist.getElementsByTagName('option');
   var randomIndex = Math.floor(Math.random() * options.length);
   var param = options[randomIndex].value;
-  ChercherPays('countriesTP.xml','cherchePays.xsl','pays_recherche',param,'hiddenlang');
-    var disp=document.getElementById('hiddenlang');
-  disp.style.display='Block';
+  ChercherPays('countriesTP.xml','cherchePays.xsl','pays_recherche',param,'text_challenge');
+
   response(param);
 }
 
@@ -323,7 +312,6 @@ for (var i = 0; i < shapeElements.length; i++) {
 
 
     });
-    // display the value of the title attribute
 }
 
 
